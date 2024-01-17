@@ -19,13 +19,15 @@ jobs:
         run: docker push ahmedbhai/reactjs-app:latest
 
   deploy:
-    needs: build
-    runs-on: aws-ec2
-    steps:
-      - name: Pull image from docker hub
-        run: docker pull ahmedbhai/reactjs-app:latest
-      - name: Delete Old Container
-        run: docker rm -f reactContainer
-      - name: Run docker container
-        run: docker run -d -p 3000:80 --name reactContainer ahmedbhai/reactjs-app 
+  needs: build
+  runs-on: aws-ec2
+  steps:
+    - name: Install Docker
+      run: sudo apt-get update && sudo apt-get install -y docker.io
+    - name: Pull image from Docker Hub
+      run: docker pull ahmedbhai/reactjs-app:latest
+    - name: Delete Old Container
+      run: docker rm -f reactContainer
+    - name: Run Docker container
+      run: docker run -d -p 3000:80 --name reactContainer ahmedbhai/reactjs-app
 
