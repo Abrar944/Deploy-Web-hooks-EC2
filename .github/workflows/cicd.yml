@@ -23,15 +23,13 @@ jobs:
     runs-on: aws-ec2
     steps:
       - name: Install Docker
-        run: sudo apt-get update && sudo apt-get install -y docker.io
-      - name: Add user to Docker group
-        run: sudo usermod -aG docker $USER
-      - name: Restart the Docker service
-        run: sudo service docker restart
-      - name: Pull image from Docker Hub
-        run: docker pull ahmedbhai/reactjs-app:latest
-      - name: Delete Old Container
-        run: docker rm -f reactContainer
-      - name: Run Docker container
-        run: docker run -d -p 3000:80 --name reactContainer ahmedbhai/reactjs-app
-
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo usermod -aG docker $USER
+          newgrp docker
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get install -y docker-compose
+      - name: Pull and run Docker container using Docker Compose
+        run: docker-compose up -d
