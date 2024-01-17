@@ -24,6 +24,10 @@ jobs:
     steps:
       - name: Install Docker
         run: sudo apt-get update && sudo apt-get install -y docker.io
+      - name: Add user to Docker group
+        run: sudo usermod -aG docker $USER
+      - name: Restart the Docker service
+        run: sudo service docker restart
       - name: Pull image from Docker Hub
         run: docker pull ahmedbhai/reactjs-app:latest
       - name: Delete Old Container
