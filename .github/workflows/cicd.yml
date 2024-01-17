@@ -16,16 +16,16 @@ jobs:
       - name: Build Docker Image
         run: docker build -t ahmedbhai/reactjs-app .
       - name: Publish image to docker hub
-        run: docker push ahmedbhai/reactjs-app:latest   
+        run: docker push ahmedbhai/reactjs-app:latest
 
-  deploy: 
+  deploy:
     needs: build
-    runs-on: aws-ec2    
+    runs-on: aws-ec2
     steps:
       - name: Pull image from docker hub
-        run: docker pull ahmedbhai/reactjs-app:latest 
+        run: docker pull ahmedbhai/reactjs-app:latest
       - name: Delete Old Container
         run: docker rm -f reactContainer
       - name: Run docker container
         run: docker run -d -p 3000:80 --name reactContainer ahmedbhai/reactjs-app 
-      - name: Task Done
+
