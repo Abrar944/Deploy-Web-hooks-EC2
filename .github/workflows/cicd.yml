@@ -14,22 +14,17 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t ahmedbhai/reactjs-app .
-      - name: Publish image to Docker Hub
-        run: docker push ahmedbhai/reactjs-app:latest
+        run: docker build -t integrationninjas/reactjs-app .
+      - name: Publish image to docker hub
+        run: docker push integrationninjas/reactjs-app:latest   
 
-  deploy:
+  deploy: 
     needs: build
-    runs-on: aws-ec2
+    runs-on: aws-ec2    
     steps:
-      - name: Install Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo usermod -aG docker $USER
-          newgrp docker
-      - name: Install Docker Compose
-        run: |
-          sudo apt-get install -y docker-compose
-      - name: Pull and run Docker container using Docker Compose
-        run: docker-compose up -d
+      - name: Pull image from docker hub
+        run: docker pull integrationninjas/reactjs-app:latest 
+      - name: Delete Old Container
+        run: docker rm -f reactContainer
+      - name: Run docker container
+        run: docker run -d -p 3000:80 --name reactContainer integrationninjas/reactjs-app   
