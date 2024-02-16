@@ -23,8 +23,8 @@ jobs:
     runs-on: aws-ec2    
     steps:
       - name: Pull image from docker hub
-        run: docker pull ahmedbhai/reactjs-app:latest 
+        run: sudo docker pull ahmedbhai/reactjs-app:latest 
       - name: Delete Old Container
-        run: docker rm -f reactContainer
+        run: sudo docker rm -f reactContainer
       - name: Run docker container
-        run: docker run -d -p 3000:80 --name reactContainer ahmedbhai/reactjs-app   
+        run: sudo docker run -d -p 3000:80 --name reactContainer ahmedbhai/reactjs-app   
